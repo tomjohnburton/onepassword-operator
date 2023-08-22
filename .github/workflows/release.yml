@@ -21,7 +21,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            1password/onepassword-operator
+            tomjohnburton/onepassword-operator
           # Publish image for x.y.z and x.y
           # The latest tag is automatically added for semver tags
           tags: |
