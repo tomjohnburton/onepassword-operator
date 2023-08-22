@@ -160,7 +160,8 @@ func (r *OnePasswordItemReconciler) handleOnePasswordItem(resource *onepasswordv
 	secretName := resource.GetName()
 	labels := resource.Labels
 	secretType := resource.Type
-	autoRestart := resource.Annotations[op.RestartDeploymentsAnnotation]
+	annotations := resource.Annotations
+	autoRestart := annotations[op.RestartDeploymentsAnnotation]
 
 	item, err := op.GetOnePasswordItemByPath(r.OpConnectClient, resource.Spec.ItemPath)
 	if err != nil {
@@ -179,7 +180,7 @@ func (r *OnePasswordItemReconciler) handleOnePasswordItem(resource *onepasswordv
 		UID:        resource.GetUID(),
 	}
 
-	return kubeSecrets.CreateKubernetesSecretFromItem(r.Client, secretName, resource.Namespace, item, autoRestart, labels, secretType, ownerRef)
+	return kubeSecrets.CreateKubernetesSecretFromItem(r.Client, secretName, resource.Namespace, item, autoRestart, labels, secretType, annotations, ownerRef)
 }
 
 func (r *OnePasswordItemReconciler) updateStatus(resource *onepasswordv1.OnePasswordItem, err error) error {
